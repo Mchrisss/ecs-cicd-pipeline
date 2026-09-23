@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jordan Reyes · DevOps & Cloud Engineer</title>
+<meta name="description" content="Portfolio of Jordan Reyes, DevOps and cloud engineer with six years of experience in AWS, Kubernetes, Terraform and CI/CD.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EEF2F5;
+    --surface: #FFFFFF;
+    --ink: #16202A;
+    --muted: #55636F;
+    --line: #CCD5DC;
+    --accent: #0F6E75;
+    --accent-ink: #FFFFFF;
+    --term-bg: #16202A;
+    --term-ink: #D7E1E8;
+    --term-dim: #7E8F9C;
+    --term-ok: #7FD4B0;
+    --term-key: #E8B931;
+    --sans: "Schibsted Grotesk", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color-scheme: light;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #111A21;
+      --surface: #182430;
+      --ink: #E3EAF0;
+      --muted: #9AAAB6;
+      --line: #2A3845;
+      --accent: #4FB3BA;
+      --accent-ink: #0E1A20;
+      --term-bg: #0B1218;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #111A21;
+    --surface: #182430;
+    --ink: #E3EAF0;
+    --muted: #9AAAB6;
+    --line: #2A3845;
+    --accent: #4FB3BA;
+    --accent-ink: #0E1A20;
+    --term-bg: #0B1218;
+    color-scheme: dark;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  *, *::before, *::after { box-sizing: inherit; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* Top bar */
+  .top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 0; gap: 16px; flex-wrap: wrap;
+  }
+  .brand { font-weight: 800; font-size: 18px; color: var(--ink); text-decoration: none; }
+  .nav { display: flex; gap: 20px; flex-wrap: wrap; }
+  .nav a { color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 500; }
+  .nav a:hover { color: var(--ink); }
+
+  /* Hero */
+  .hero {
+    display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: center;
+    padding: 56px 0 72px;
+  }
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    font-weight: 800;
+    margin: 0 0 20px;
+  }
+  .hero p.lede { font-size: 19px; color: var(--muted); max-width: 32em; margin: 0 0 28px; }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 12px 20px; border-radius: 8px;
+    font-weight: 700; font-size: 16px; text-decoration: none;
+    border: 2px solid var(--accent);
+  }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); }
+  .btn.ghost { color: var(--accent); background: transparent; }
+
+  /* Terminal */
+  .term {
+    background: var(--term-bg);
+    color: var(--term-ink);
+    border-radius: 12px;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    line-height: 1.7;
+    overflow: hidden;
+    box-shadow: 0 24px 48px -24px rgba(15, 40, 55, 0.45);
+  }
+  .term-bar { display: flex; gap: 7px; padding: 12px 16px; border-bottom: 1px solid #26343F; }
+  .term-bar span { width: 11px; height: 11px; border-radius: 50%; background: #3A4A57; }
+  .term-body { padding: 18px 20px 22px; overflow-x: auto; min-height: 300px; }
+  .term-body .ln { white-space: pre; }
+  .term .dim { color: var(--term-dim); }
+  .term .ok { color: var(--term-ok); }
+  .term .key { color: var(--term-key); }
+  .term .prompt { color: var(--term-ok); }
+  .cursor { display: inline-block; width: 8px; height: 1.1em; background: var(--term-ink); vertical-align: text-bottom; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Sections */
+  section { padding: 64px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 30px; letter-spacing: -0.02em; margin: 0 0 8px; font-weight: 800; }
+  .section-intro { color: var(--muted); margin: 0 0 36px; max-width: 40em; }
+
+  /* About */
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .about p { margin: 0 0 16px; max-width: 36em; }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 32px; align-content: start; }
+  .fact strong { display: block; font-size: 34px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+  .fact span { color: var(--muted); font-size: 15px; }
+
+  /* Experience timeline */
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .job { display: grid; grid-template-columns: 170px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+  .job:last-child { border-bottom: 0; }
+  .job .when { color: var(--muted); font-weight: 500; font-size: 15px; padding-top: 4px; }
+  .job h3 { margin: 0; font-size: 21px; }
+  .job .org { color: var(--accent); font-weight: 700; margin: 2px 0 12px; }
+  .job ul { margin: 0; padding-left: 20px; }
+  .job li { margin-bottom: 6px; max-width: 42em; }
+
+  /* Projects */
+  .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .project { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; }
+  .project h3 { margin: 0 0 10px; font-size: 19px; line-height: 1.3; }
+  .project p { margin: 0 0 16px; color: var(--muted); font-size: 16px; }
+  .result { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); font-weight: 700; font-size: 15px; }
+  .stack { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; padding: 0; list-style: none; }
+  .stack li { font-size: 13px; padding: 3px 9px; border-radius: 999px; background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+
+  /* Skills */
+  .skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+  .skills h3 { font-size: 16px; margin: 0 0 10px; }
+  .skills ul { margin: 0; padding: 0; list-style: none; color: var(--muted); }
+  .skills li { padding: 3px 0; }
+
+  /* Certs */
+  .certs { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; list-style: none; padding: 0; margin: 0; }
+  .certs li { padding: 18px 20px; border-left: 4px solid var(--accent); background: var(--surface); border-radius: 0 8px 8px 0; }
+  .certs strong { display: block; }
+  .certs span { color: var(--muted); font-size: 15px; }
+
+  /* Contact */
+  .contact { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: start; }
+  .contact-list { list-style: none; margin: 0; padding: 0; }
+  .contact-list li { padding: 12px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .contact-list span { color: var(--muted); }
+
+  footer { padding: 32px 0 48px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
+
+  @media (max-width: 900px) {
+    .hero, .about, .contact { grid-template-columns: 1fr; }
+    .projects { grid-template-columns: 1fr; }
+    .skills { grid-template-columns: 1fr 1fr; }
+    .hero { padding-top: 24px; }
+  }
+  @media (max-width: 560px) {
+    .job { grid-template-columns: 1fr; gap: 6px; }
+    .skills { grid-template-columns: 1fr; }
+    .nav { gap: 14px; }
+    .term { font-size: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .cursor { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#top">Jordan Reyes</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="hero">
+      <div>
+        <h1>I build cloud platforms teams can ship on without thinking about them.</h1>
+        <p class="lede">DevOps and cloud engineer with six years of experience running production workloads on AWS and Kubernetes, writing everything as code, and turning slow, manual releases into boring, repeatable ones.</p>
+        <div class="actions">
+          <a class="btn primary" href="#contact">Get in touch</a>
+          <a class="btn ghost" href="#projects">See projects</a>
+        </div>
+      </div>
+
+      <div class="term" role="img" aria-label="Terminal showing a Terraform apply that summarizes six years of experience, 99.95% uptime, and current availability for senior DevOps and platform roles.">
+        <div class="term-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="term-body" id="term" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <section id="about">
+      <div class="about">
+        <div>
+          <h2>About</h2>
+          <p>I started in cloud support, fixing other people's servers at 2 a.m., and that's where I learned the thing I still care about most: the best incident is the one that never pages anyone.</p>
+          <p>Since then I've moved monoliths onto containers, built multi-account AWS foundations, and set up CI/CD that lets developers deploy dozens of times a day. I like clear runbooks, small pull requests, and infrastructure that anyone on the team can read.</p>
+        </div>
+        <div class="facts">
+          <div class="fact"><strong>6 yrs</strong><span>in DevOps and cloud roles</span></div>
+          <div class="fact"><strong>99.95%</strong><span>platform uptime over the last two years</span></div>
+          <div class="fact"><strong>40 min → 8 min</strong><span>average deploy time after pipeline rebuild</span></div>
+          <div class="fact"><strong>38%</strong><span>lower monthly AWS bill after cost work</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <h2>Experience</h2>
+      <p class="section-intro">Most recent first.</p>
+      <ol class="timeline">
+        <li class="job">
+          <div class="when">2023 – Present</div>
+          <div>
+            <h3>Senior DevOps Engineer</h3>
+            <div class="org">Northwind Logistics</div>
+            <ul>
+              <li>Lead a platform team of four supporting 60+ engineers across 30 microservices on Amazon EKS and ECS Fargate.</li>
+              <li>Designed a multi-account AWS landing zone with Terraform, AWS Organizations, and SSO, replacing hand-built accounts.</li>
+              <li>Introduced GitOps with Argo CD, cutting failed production deploys by 70%.</li>
+              <li>Ran a cost review using Savings Plans, Graviton instances, and right-sizing that reduced spend by 38%.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="job">
+          <div class="when">2021 – 2023</div>
+          <div>
+            <h3>DevOps Engineer</h3>
+            <div class="org">Brightline Health</div>
+            <ul>
+              <li>Migrated a monolithic Java app from EC2 to Docker containers on ECS behind an Application Load Balancer.</li>
+              <li>Rebuilt CI/CD in GitHub Actions with automated tests, image scanning, and blue/green releases.</li>
+              <li>Set up Prometheus, Grafana, and CloudWatch alerting with on-call runbooks, cutting mean time to recovery from 3 hours to 25 minutes.</li>
+              <li>Helped the team pass a HIPAA audit by encrypting data at rest and in transit and centralizing audit logs.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="job">
+          <div class="when">2020 – 2021</div>
+          <div>
+            <h3>Cloud Support Engineer</h3>
+            <div class="org">Coastal Data Services</div>
+            <ul>
+              <li>Supported 40+ customer environments on AWS and Azure, handling networking, IAM, and backup issues.</li>
+              <li>Wrote Bash and Python scripts that automated patching and snapshot cleanup across hundreds of instances.</li>
+              <li>Built the team's first Terraform modules for VPCs and EC2, moving new customer setups from days to hours.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="projects">
+      <h2>Selected projects</h2>
+      <p class="section-intro">A few pieces of work I'm proud of, and what changed because of them.</p>
+      <div class="projects">
+        <article class="project">
+          <h3>Self-service environments on EKS</h3>
+          <p>Developers open a pull request and get a full preview environment with its own URL, database, and TLS certificate, torn down automatically on merge.</p>
+          <ul class="stack"><li>EKS</li><li>Argo CD</li><li>Helm</li><li>Terraform</li></ul>
+          <div class="result">Wait for a test environment went from 2 days to 6 minutes.</div>
+        </article>
+        <article class="project">
+          <h3>Zero-downtime ECS migration</h3>
+          <p>Moved a customer-facing API off EC2 onto ECS Fargate behind an HTTPS load balancer, with target-tracking autoscaling from 2 to 20 tasks.</p>
+          <ul class="stack"><li>ECS Fargate</li><li>ALB</li><li>ACM</li><li>CloudWatch</li></ul>
+          <div class="result">No downtime during cutover, and handled 5× peak traffic.</div>
+        </article>
+        <article class="project">
+          <h3>Reusable Terraform module library</h3>
+          <p>A versioned set of modules for VPCs, databases, queues, and services, with automated tests and policy checks on every change.</p>
+          <ul class="stack"><li>Terraform</li><li>Terratest</li><li>OPA</li><li>GitHub Actions</li></ul>
+          <div class="result">Used by 12 teams; new services launch in under a day.</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2>Skills</h2>
+      <p class="section-intro">Tools I use in production, not just ones I've tried.</p>
+      <div class="skills">
+        <div>
+          <h3>Cloud</h3>
+          <ul><li>AWS (EC2, ECS, EKS, Lambda)</li><li>VPC, IAM, Route 53</li><li>RDS, S3, DynamoDB</li><li>Azure fundamentals</li></ul>
+        </div>
+        <div>
+          <h3>Infrastructure as code</h3>
+          <ul><li>Terraform</li><li>CloudFormation</li><li>Ansible</li><li>Packer</li></ul>
+        </div>
+        <div>
+          <h3>Containers & CI/CD</h3>
+          <ul><li>Docker</li><li>Kubernetes, Helm</li><li>GitHub Actions, Jenkins</li><li>Argo CD</li></ul>
+        </div>
+        <div>
+          <h3>Observability & scripting</h3>
+          <ul><li>Prometheus, Grafana</li><li>CloudWatch, Datadog</li><li>Python, Bash</li><li>Linux administration</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="certifications">
+      <h2>Certifications</h2>
+      <p class="section-intro">Current and verifiable.</p>
+      <ul class="certs">
+        <li><strong>AWS Certified Solutions Architect – Professional</strong><span>Amazon Web Services</span></li>
+        <li><strong>AWS Certified DevOps Engineer – Professional</strong><span>Amazon Web Services</span></li>
+        <li><strong>Certified Kubernetes Administrator (CKA)</strong><span>The Linux Foundation</span></li>
+        <li><strong>HashiCorp Certified: Terraform Associate</strong><span>HashiCorp</span></li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <div class="contact">
+        <div>
+          <h2>Let's talk</h2>
+          <p class="section-intro">I'm open to senior DevOps, platform, and cloud engineering roles, remote or hybrid. The fastest way to reach me is email.</p>
+          <a class="btn primary" href="mailto:jordan.reyes@example.com">Email me</a>
+        </div>
+        <ul class="contact-list">
+          <li><span>Email</span><a href="mailto:jordan.reyes@example.com">jordan.reyes@example.com</a></li>
+          <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/your-profile">linkedin.com/in/your-profile</a></li>
+          <li><span>GitHub</span><a href="https://github.com/your-username">github.com/your-username</a></li>
+          <li><span>Location</span><strong>Your City, ST · Open to remote</strong></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2026 Jordan Reyes. Built as a single HTML file.</footer>
+</div>
+
+<script>
+  (function () {
+    var lines = [
+      '<span class="prompt">$</span> terraform apply -var="engineer=jordan-reyes"',
+      '<span class="dim">Refreshing state...</span>',
+      '',
+      'Plan: <span class="key">6 years</span> to add, 0 to change, 0 to destroy.',
+      '',
+      'aws_organizations.landing_zone: <span class="ok">Creation complete</span>',
+      'aws_eks_cluster.platform: <span class="ok">Creation complete</span>',
+      'aws_ecs_service.api: <span class="ok">Scaled 2 → 20 tasks</span>',
+      'module.cicd.github_actions: <span class="ok">140 pipelines live</span>',
+      '',
+      '<span class="ok">Apply complete!</span> Uptime: 99.95%. Pages: rare.',
+      '',
+      'Outputs:',
+      '<span class="key">status</span> = "open to senior DevOps / platform roles"',
+      '<span class="key">contact</span> = "jordan.reyes@example.com"'
+    ];
+    var el = document.getElementById('term');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function render(n) {
+      var html = '';
+      for (var i = 0; i < n; i++) html += '<div class="ln">' + (lines[i] || '&nbsp;') + '</div>';
+      if (n >= lines.length) html += '<div class="ln"><span class="prompt">$</span> <span class="cursor"></span></div>';
+      el.innerHTML = html;
+    }
+
+    if (reduce) { render(lines.length); return; }
+    var i = 0;
+    (function step() {
+      i++;
+      render(i);
+      if (i < lines.length) setTimeout(step, i === 1 ? 700 : 220);
+    })();
+  })();
+</script>
+</body>
+</html>
