@@ -40,6 +40,12 @@ variable "domain_name" {
   default     = "manzic.store"
 }
 
+variable "container_image" {
+  description = "Container image for the nginx task. CI/CD deploys update this by registering a new task definition revision directly (see lifecycle.ignore_changes below), so this default only matters for the first apply."
+  type        = string
+  default     = "nginx:latest"
+}
+
 variable "hosted_zone_name" {
   description = "Public Route 53 hosted zone (e.g. example.com). Leave empty if your DNS is elsewhere."
   type        = string
@@ -289,7 +295,7 @@ resource "aws_ecs_task_definition" "nginx" {
   container_definitions = jsonencode([
     {
       name      = "nginx"
-      image     = "nginx:latest"
+      image     = var.container_image
       essential = true
       portMappings = [{
         containerPort = 80
@@ -305,6 +311,12 @@ resource "aws_ecs_task_definition" "nginx" {
       }
     }
   ])
+
+  # CI/CD registers new task definition revisions directly with the deployed
+  # image tag; don't let terraform apply revert those between deploys.
+  lifecycle {
+    ignore_changes = [container_definitions]
+  }
 }
 
 resource "aws_ecs_service" "nginx" {

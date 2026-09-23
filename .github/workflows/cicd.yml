@@ -73,9 +73,30 @@ jobs:
           docker push \
           ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ github.sha }}
 
+      - name: Render New Task Definition
+        id: render-task-def
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition nginx-demo-task \
+            --query 'taskDefinition' > task-def.json
+
+          NEW_IMAGE="${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ github.sha }}"
+
+          jq --arg IMAGE "$NEW_IMAGE" \
+            '.containerDefinitions[0].image = $IMAGE
+             | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' \
+            task-def.json > new-task-def.json
+
+          NEW_TASK_DEF_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://new-task-def.json \
+            --query 'taskDefinition.taskDefinitionArn' --output text)
+
+          echo "task_def_arn=$NEW_TASK_DEF_ARN" >> "$GITHUB_OUTPUT"
+
       - name: Update ECS Service
         run: |
           aws ecs update-service \
             --cluster nginx-demo-cluster \
             --service nginx-demo-service \
+            --task-definition ${{ steps.render-task-def.outputs.task_def_arn }} \
             --force-new-deployment
